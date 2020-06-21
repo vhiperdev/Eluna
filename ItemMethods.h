@@ -176,7 +176,7 @@ namespace LuaItem
     int HasQuest(lua_State* L, Item* item)
     {
         uint32 quest = Eluna::CHECKVAL<uint32>(L, 2);
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, item->hasQuest(quest));
 #else
         Eluna::Push(L, item->HasQuest(quest));
@@ -265,8 +265,8 @@ namespace LuaItem
 
         const ItemTemplate* temp = item->GetTemplate();
         std::string name = temp->Name1;
-        if (ItemLocale const* il = eObjectMgr->GetItemLocale(temp->ItemId))
-            ObjectMgr::GetLocaleString(il->Name, static_cast<LocaleConstant>(locale), name);
+        if (ItemLocale const* il = sGameLocale->GetItemLocale(temp->ItemId))
+            sGameLocale->GetLocaleString(il->Name, static_cast<LocaleConstant>(locale), name);
 
 #ifndef CLASSIC
         if (int32 itemRandPropId = item->GetItemRandomPropertyId())
@@ -319,7 +319,7 @@ namespace LuaItem
 
     int GetOwnerGUID(lua_State* L, Item* item)
     {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, item->GetOwnerGUID());
 #else
         Eluna::Push(L, item->GetOwnerGuid());
@@ -634,7 +634,7 @@ namespace LuaItem
     int SetOwner(lua_State* L, Item* item)
     {
         Player* player = Eluna::CHECKOBJ<Player>(L, 2);
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         item->SetOwnerGUID(player->GET_GUID());
 #else
         item->SetOwnerGuid(player->GET_GUID());
@@ -743,7 +743,7 @@ namespace LuaItem
 #if defined TRINITY
         CharacterDatabaseTransaction trans = CharacterDatabaseTransaction(nullptr);
         item->SaveToDB(trans);
-#elif defined AZEROTHCORE
+#elif defined WH
         SQLTransaction trans = SQLTransaction(NULL);
         item->SaveToDB(trans);
 #else

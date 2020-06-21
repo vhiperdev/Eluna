@@ -28,7 +28,7 @@ extern "C"
 #include "lua.h"
 };
 
-#if defined(TRINITY) || AZEROTHCORE
+#if defined(TRINITY) || WH
 struct ItemTemplate;
 typedef BattlegroundTypeId BattleGroundTypeId;
 #else
@@ -41,14 +41,14 @@ typedef SpellEntry SpellInfo;
 typedef int Difficulty;
 #endif
 #endif
-#ifndef AZEROTHCORE
+#ifndef WH
 struct AreaTriggerEntry;
 #else
 typedef AreaTrigger AreaTriggerEntry;
 #endif
 class AuctionHouseObject;
 struct AuctionEntry;
-#if defined(TRINITY) || AZEROTHCORE
+#if defined(TRINITY) || WH
 class Battleground;
 typedef Battleground BattleGround;
 #endif
@@ -57,12 +57,12 @@ class Corpse;
 class Creature;
 class CreatureAI;
 class GameObject;
-#if defined(TRINITY) || AZEROTHCORE
+#if defined(TRINITY) || WH
 class GameObjectAI;
 #endif
 class Guild;
 class Group;
-#if defined(TRINITY) || AZEROTHCORE
+#if defined(TRINITY) || WH
 class InstanceScript;
 typedef InstanceScript InstanceData;
 #else
@@ -75,7 +75,7 @@ class Player;
 class Quest;
 class Spell;
 class SpellCastTargets;
-#if defined(TRINITY) || AZEROTHCORE
+#if defined(TRINITY) || WH
 class TempSummon;
 #else
 class TemporarySummon;
@@ -87,7 +87,7 @@ class Weather;
 class WorldPacket;
 #ifndef CLASSIC
 #ifndef TBC
-#if defined(TRINITY) || AZEROTHCORE
+#if defined(TRINITY) || WH
 class Vehicle;
 #else
 class VehicleInfo;
@@ -529,7 +529,7 @@ public:
 
     /* World */
     void OnOpenStateChange(bool open);
-#ifndef AZEROTHCORE
+#ifndef WH
     void OnConfigLoad(bool reload);
 #else
     void OnConfigLoad(bool reload, bool isBefore);
@@ -543,7 +543,7 @@ public:
 
     /* Battle Ground */
     void OnBGStart(BattleGround* bg, BattleGroundTypeId bgId, uint32 instanceId);
-#if AZEROTHCORE
+#if WH
     void OnBGEnd(BattleGround* bg, BattleGroundTypeId bgId, uint32 instanceId, TeamId winner);
 #else
     void OnBGEnd(BattleGround* bg, BattleGroundTypeId bgId, uint32 instanceId, Team winner);

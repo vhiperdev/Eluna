@@ -9,7 +9,7 @@
 
 #include "LuaEngine.h"
 
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
 struct ScriptedAI;
 #else
 class AggressorAI;
@@ -60,7 +60,7 @@ struct ElunaCreatureAI : ScriptedAI
 
         if (!sEluna->UpdateAI(me, diff))
         {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
             if (!me->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_IMMUNE_TO_NPC))
                 ScriptedAI::UpdateAI(diff);
 #else
@@ -89,7 +89,7 @@ struct ElunaCreatureAI : ScriptedAI
 #endif
 
     // Called at any Damage from any attacker (before damage apply)
-#if AZEROTHCORE
+#if WH
     void DamageTaken(Unit* attacker, uint32& damage, DamageEffectType damagetype, SpellSchoolMask damageSchoolMask) override
 #else
     void DamageTaken(Unit* attacker, uint32& damage) override
@@ -97,7 +97,7 @@ struct ElunaCreatureAI : ScriptedAI
     {
         if (!sEluna->DamageTaken(me, attacker, damage))
         {
-#if AZEROTHCORE
+#if WH
             ScriptedAI::DamageTaken(attacker, damage, damagetype, damageSchoolMask);
 #else
             ScriptedAI::DamageTaken(attacker, damage);
@@ -201,7 +201,7 @@ struct ElunaCreatureAI : ScriptedAI
             ScriptedAI::CorpseRemoved(respawnDelay);
     }
 
-#if !defined TRINITY && !AZEROTHCORE
+#if !defined TRINITY && !WH
     // Enables use of MoveInLineOfSight
     bool IsVisible(Unit* who) const override
     {
@@ -229,7 +229,7 @@ struct ElunaCreatureAI : ScriptedAI
             ScriptedAI::SpellHitTarget(target, spell);
     }
 
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
 
 #if defined TRINITY
     // Called when the creature is summoned successfully by other creature

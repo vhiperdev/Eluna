@@ -7,7 +7,7 @@
 #ifndef QUERYMETHODS_H
 #define QUERYMETHODS_H
 
-#if defined TRINITY || defined AZEROTHCORE
+#if defined TRINITY || defined WH
 #define RESULT  (*result)
 #else
 #define RESULT  result
@@ -45,7 +45,7 @@ namespace LuaQuery
         uint32 col = Eluna::CHECKVAL<uint32>(L, 2);
         CheckFields(L, result);
 
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, RESULT->Fetch()[col].IsNull());
 #else
         Eluna::Push(L, RESULT->Fetch()[col].IsNULL());
@@ -291,13 +291,13 @@ namespace LuaQuery
         lua_createtable(L, 0, col);
         int tbl = lua_gettop(L);
 
-#if !defined TRINITY && !AZEROTHCORE
+#if !defined TRINITY && !WH
         const QueryFieldNames& names = RESULT->GetFieldNames();
 #endif
 
         for (uint32 i = 0; i < col; ++i)
         {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
             Eluna::Push(L, RESULT->GetFieldName(i));
 
             const char* str = row[i].GetCString();
@@ -308,7 +308,7 @@ namespace LuaQuery
                 // MYSQL_TYPE_LONGLONG Interpreted as string for lua
                 switch (row[i].GetType())
                 {
-#ifndef AZEROTHCORE
+#ifndef WH
                     case DatabaseFieldTypes::Int8:
                     case DatabaseFieldTypes::Int16:
                     case DatabaseFieldTypes::Int32:

@@ -18,8 +18,8 @@
 #if TRINITY_PLATFORM == TRINITY_PLATFORM_WINDOWS
 #define ELUNA_WINDOWS
 #endif
-#elif defined(AC_PLATFORM) && defined(AC_PLATFORM_WINDOWS)
-#if AC_PLATFORM == AC_PLATFORM_WINDOWS
+#elif defined(WH_PLATFORM) && defined(WH_PLATFORM_WINDOWS)
+#if WH_PLATFORM == WH_PLATFORM_WINDOWS
 #define ELUNA_WINDOWS
 #endif
 #elif defined(PLATFORM) && defined(PLATFORM_WINDOWS)
@@ -32,7 +32,7 @@
 
 // Some dummy includes containing BOOST_VERSION:
 // ObjectAccessor.h Config.h Log.h
-#if !defined MANGOS && !defined AZEROTHCORE
+#if !defined MANGOS && !defined WH
 #define USING_BOOST
 #endif
 
@@ -70,7 +70,7 @@ void Eluna::Initialize()
     LOCK_ELUNA;
     ASSERT(!IsInitialized());
 
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
     // For instance data the data column needs to be able to hold more than 255 characters (tinytext)
     // so we change it to TEXT automatically on startup
     CharacterDatabase.DirectExecute("ALTER TABLE `instance` CHANGE COLUMN `data` `data` TEXT NOT NULL");
@@ -120,7 +120,7 @@ void Eluna::LoadScriptPaths()
     if (!lua_requirepath.empty())
         lua_requirepath.erase(lua_requirepath.end() - 1);
 
-    ELUNA_LOG_DEBUG("[Eluna]: Loaded %u scripts in %u ms", uint32(lua_scripts.size() + lua_extensions.size()), ElunaUtil::GetTimeDiff(oldMSTime));
+    ELUNA_LOG_ERROR("[Eluna]: Loaded %u scripts in %u ms", uint32(lua_scripts.size() + lua_extensions.size()), ElunaUtil::GetTimeDiff(oldMSTime));
 }
 
 void Eluna::_ReloadEluna()
@@ -315,7 +315,7 @@ void Eluna::DestroyBindStores()
 
 void Eluna::AddScriptPath(std::string filename, const std::string& fullpath)
 {
-    ELUNA_LOG_DEBUG("[Eluna]: AddScriptPath Checking file `%s`", fullpath.c_str());
+    ELUNA_LOG_ERROR("[Eluna]: AddScriptPath Checking file `%s`", fullpath.c_str());
 
     // split file name
     std::size_t extDot = filename.find_last_of('.');
@@ -338,13 +338,13 @@ void Eluna::AddScriptPath(std::string filename, const std::string& fullpath)
         lua_extensions.push_back(script);
     else
         lua_scripts.push_back(script);
-    ELUNA_LOG_DEBUG("[Eluna]: AddScriptPath add path `%s`", fullpath.c_str());
+    ELUNA_LOG_ERROR("[Eluna]: AddScriptPath add path `%s`", fullpath.c_str());
 }
 
 // Finds lua script files from given path (including subdirectories) and pushes them to scripts
 void Eluna::GetScripts(std::string path)
 {
-    ELUNA_LOG_DEBUG("[Eluna]: GetScripts from path `%s`", path.c_str());
+    ELUNA_LOG_ERROR("[Eluna]: GetScripts from path `%s`", path.c_str());
 
 #ifdef USING_BOOST
     boost::filesystem::path someDir(path);
@@ -479,7 +479,7 @@ void Eluna::RunScripts()
         if (!lua_isnoneornil(L, -1))
         {
             lua_pop(L, 1);
-            ELUNA_LOG_DEBUG("[Eluna]: `%s` was already loaded or required", it->filepath.c_str());
+            ELUNA_LOG_ERROR("[Eluna]: `%s` was already loaded or required", it->filepath.c_str());
             continue;
         }
         lua_pop(L, 1);
@@ -508,7 +508,7 @@ void Eluna::RunScripts()
             // Stack: package, modules
 
             // successfully loaded and ran file
-            ELUNA_LOG_DEBUG("[Eluna]: Successfully loaded `%s`", it->filepath.c_str());
+            ELUNA_LOG_ERROR("[Eluna]: Successfully loaded `%s`", it->filepath.c_str());
             ++count;
             continue;
         }
@@ -1024,7 +1024,7 @@ int Eluna::Register(lua_State* L, uint8 regtype, uint32 entry, uint64 guid, uint
             {
                 if (entry != 0)
                 {
-                    if (!eObjectMgr->GetCreatureTemplate(entry))
+                    if (!sObjectMgr->GetCreatureTemplate(entry))
                     {
                         luaL_unref(L, LUA_REGISTRYINDEX, functionRef);
                         luaL_error(L, "Couldn't find a creature with (ID: %d)!", entry);
@@ -1055,7 +1055,7 @@ int Eluna::Register(lua_State* L, uint8 regtype, uint32 entry, uint64 guid, uint
         case Hooks::REGTYPE_CREATURE_GOSSIP:
             if (event_id < Hooks::GOSSIP_EVENT_COUNT)
             {
-                if (!eObjectMgr->GetCreatureTemplate(entry))
+                if (!sObjectMgr->GetCreatureTemplate(entry))
                 {
                     luaL_unref(L, LUA_REGISTRYINDEX, functionRef);
                     luaL_error(L, "Couldn't find a creature with (ID: %d)!", entry);
@@ -1072,7 +1072,7 @@ int Eluna::Register(lua_State* L, uint8 regtype, uint32 entry, uint64 guid, uint
         case Hooks::REGTYPE_GAMEOBJECT:
             if (event_id < Hooks::GAMEOBJECT_EVENT_COUNT)
             {
-                if (!eObjectMgr->GetGameObjectTemplate(entry))
+                if (!sObjectMgr->GetGameObjectTemplate(entry))
                 {
                     luaL_unref(L, LUA_REGISTRYINDEX, functionRef);
                     luaL_error(L, "Couldn't find a gameobject with (ID: %d)!", entry);
@@ -1089,7 +1089,7 @@ int Eluna::Register(lua_State* L, uint8 regtype, uint32 entry, uint64 guid, uint
         case Hooks::REGTYPE_GAMEOBJECT_GOSSIP:
             if (event_id < Hooks::GOSSIP_EVENT_COUNT)
             {
-                if (!eObjectMgr->GetGameObjectTemplate(entry))
+                if (!sObjectMgr->GetGameObjectTemplate(entry))
                 {
                     luaL_unref(L, LUA_REGISTRYINDEX, functionRef);
                     luaL_error(L, "Couldn't find a gameobject with (ID: %d)!", entry);
@@ -1106,7 +1106,7 @@ int Eluna::Register(lua_State* L, uint8 regtype, uint32 entry, uint64 guid, uint
         case Hooks::REGTYPE_ITEM:
             if (event_id < Hooks::ITEM_EVENT_COUNT)
             {
-                if (!eObjectMgr->GetItemTemplate(entry))
+                if (!sObjectMgr->GetItemTemplate(entry))
                 {
                     luaL_unref(L, LUA_REGISTRYINDEX, functionRef);
                     luaL_error(L, "Couldn't find a item with (ID: %d)!", entry);
@@ -1123,7 +1123,7 @@ int Eluna::Register(lua_State* L, uint8 regtype, uint32 entry, uint64 guid, uint
         case Hooks::REGTYPE_ITEM_GOSSIP:
             if (event_id < Hooks::GOSSIP_EVENT_COUNT)
             {
-                if (!eObjectMgr->GetItemTemplate(entry))
+                if (!sObjectMgr->GetItemTemplate(entry))
                 {
                     luaL_unref(L, LUA_REGISTRYINDEX, functionRef);
                     luaL_error(L, "Couldn't find a item with (ID: %d)!", entry);

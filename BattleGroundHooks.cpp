@@ -29,7 +29,7 @@ void Eluna::OnBGStart(BattleGround* bg, BattleGroundTypeId bgId, uint32 instance
     CallAllFunctions(BGEventBindings, key);
 }
 
-#if AZEROTHCORE
+#if WH
 void Eluna::OnBGEnd(BattleGround* bg, BattleGroundTypeId bgId, uint32 instanceId, TeamId winner)
 #else
 void Eluna::OnBGEnd(BattleGround* bg, BattleGroundTypeId bgId, uint32 instanceId, Team winner)

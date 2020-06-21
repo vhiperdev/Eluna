@@ -46,7 +46,7 @@
 #include <boost/thread/shared_mutex.hpp>
 #endif
 
-#if defined TRINITY || defined AZEROTHCORE
+#if defined TRINITY || defined WH
 #include "Config.h"
 #include "GameEventMgr.h"
 #include "GroupMgr.h"
@@ -57,6 +57,7 @@
 #include "MotionMaster.h"
 #include "DatabaseEnv.h"
 #include "Bag.h"
+#include "GameLocale.h"
 #else
 #include "Config/Config.h"
 #ifdef CMANGOS
@@ -114,21 +115,21 @@ typedef Opcodes                 OpcodesList;
 #endif
 #endif
 
-#ifdef AZEROTHCORE
-#define CORE_NAME               "AzerothCore"
+#ifdef WH
+#define CORE_NAME               "WarheadCore"
 #define CORE_VERSION            ""
 #define eWorld                  (sWorld)
 #define eMapMgr                 (sMapMgr)
 #define eConfigMgr              (sConfigMgr)
 #define eGuildMgr               (sGuildMgr)
-#define eObjectMgr              (sObjectMgr)
+#define eObjectMgr              (sGameLocale)
 #define eAccountMgr             (sAccountMgr)
 #define eAuctionMgr             (sAuctionMgr)
 #define eGameEventMgr           (sGameEventMgr)
 #define eObjectAccessor()       ObjectAccessor::
 #endif
 
-#if !defined TRINITY && !AZEROTHCORE
+#if !defined TRINITY && !WH
 #define eWorld                  (&sWorld)
 #define eMapMgr                 (&sMapMgr)
 #define eConfigMgr              (&sConfig)

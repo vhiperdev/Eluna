@@ -116,7 +116,7 @@ bool Eluna::OnAreaTrigger(Player* pPlayer, AreaTriggerEntry const* pTrigger)
 {
     START_HOOK_WITH_RETVAL(TRIGGER_EVENT_ON_TRIGGER, false);
     Push(pPlayer);
-#ifndef AZEROTHCORE
+#ifndef WH
     Push(pTrigger->id);
 #else
     Push(pTrigger->entry);
@@ -141,7 +141,7 @@ void Eluna::OnAdd(AuctionHouseObject* /*ah*/, AuctionEntry* entry)
 #ifdef TRINITY
     Item* item = eAuctionMgr->GetAItem(entry->itemGUIDLow);
     uint32 expiretime = entry->expire_time;
-#elif AZEROTHCORE
+#elif WH
     Item* item = eAuctionMgr->GetAItem(entry->item_guidlow);
     uint32 expiretime = entry->expire_time;
 #else
@@ -171,7 +171,7 @@ void Eluna::OnRemove(AuctionHouseObject* /*ah*/, AuctionEntry* entry)
 #ifdef TRINITY
     Item* item = eAuctionMgr->GetAItem(entry->itemGUIDLow);
     uint32 expiretime = entry->expire_time;
-#elif AZEROTHCORE
+#elif WH
     Item* item = eAuctionMgr->GetAItem(entry->item_guidlow);
     uint32 expiretime = entry->expire_time;
 #else
@@ -201,7 +201,7 @@ void Eluna::OnSuccessful(AuctionHouseObject* /*ah*/, AuctionEntry* entry)
 #ifdef TRINITY
     Item* item = eAuctionMgr->GetAItem(entry->itemGUIDLow);
     uint32 expiretime = entry->expire_time;
-#elif AZEROTHCORE
+#elif WH
     Item* item = eAuctionMgr->GetAItem(entry->item_guidlow);
     uint32 expiretime = entry->expire_time;
 #else
@@ -231,7 +231,7 @@ void Eluna::OnExpire(AuctionHouseObject* /*ah*/, AuctionEntry* entry)
 #ifdef TRINITY
     Item* item = eAuctionMgr->GetAItem(entry->itemGUIDLow);
     uint32 expiretime = entry->expire_time;
-#elif AZEROTHCORE
+#elif WH
     Item* item = eAuctionMgr->GetAItem(entry->item_guidlow);
     uint32 expiretime = entry->expire_time;
 #else
@@ -262,7 +262,7 @@ void Eluna::OnOpenStateChange(bool open)
     CallAllFunctions(ServerEventBindings, key);
 }
 
-#ifndef AZEROTHCORE
+#ifndef WH
 void Eluna::OnConfigLoad(bool reload)
 #else
 void Eluna::OnConfigLoad(bool reload, bool isBefore)
@@ -270,7 +270,7 @@ void Eluna::OnConfigLoad(bool reload, bool isBefore)
 {
     START_HOOK(WORLD_EVENT_ON_CONFIG_LOAD);
     Push(reload);
-#ifdef AZEROTHCORE
+#ifdef WH
     Push(isBefore);
 #endif
     CallAllFunctions(ServerEventBindings, key);

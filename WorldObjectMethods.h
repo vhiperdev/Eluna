@@ -187,8 +187,8 @@ namespace LuaWorldObject
         Trinity::UnitLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
         Cell::VisitAllObjects(obj, searcher, range);
 
-#elif AZEROTHCORE
-        acore::UnitLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
+#elif WH
+        warhead::UnitLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
         obj->VisitNearbyObject(range,searcher);
 #else
         MaNGOS::UnitLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(target, checker);
@@ -219,8 +219,8 @@ namespace LuaWorldObject
 #ifdef TRINITY
         Trinity::GameObjectLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
         Cell::VisitAllObjects(obj, searcher, range);
-#elif AZEROTHCORE
-        acore::GameObjectLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
+#elif WH
+        warhead::GameObjectLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
         obj->VisitNearbyObject(range, searcher);
 #else
         MaNGOS::GameObjectLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(target, checker);
@@ -253,8 +253,8 @@ namespace LuaWorldObject
 #ifdef TRINITY
         Trinity::CreatureLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
         Cell::VisitAllObjects(obj, searcher, range);
-#elif AZEROTHCORE
-        acore::CreatureLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
+#elif WH
+        warhead::CreatureLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
         obj->VisitNearbyObject(range, searcher);
 #else
         MaNGOS::CreatureLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(target, checker);
@@ -286,8 +286,8 @@ namespace LuaWorldObject
 #ifdef TRINITY
         Trinity::PlayerListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
         Cell::VisitAllObjects(obj, searcher, range);
-#elif AZEROTHCORE
-        acore::PlayerListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
+#elif WH
+        warhead::PlayerListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
         obj->VisitNearbyObject(range, searcher);
 #else
         MaNGOS::PlayerListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(list, checker);
@@ -330,8 +330,8 @@ namespace LuaWorldObject
 #ifdef TRINITY
         Trinity::CreatureListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
         Cell::VisitAllObjects(obj, searcher, range);
-#elif defined AZEROTHCORE
-        acore::CreatureListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
+#elif defined WH
+        warhead::CreatureListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
         obj->VisitNearbyObject(range, searcher);
 #else
         MaNGOS::CreatureListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(list, checker);
@@ -372,8 +372,8 @@ namespace LuaWorldObject
 #ifdef TRINITY
         Trinity::GameObjectListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
         Cell::VisitAllObjects(obj, searcher, range);
-#elif AZEROTHCORE
-        acore::GameObjectListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
+#elif WH
+        warhead::GameObjectListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
         obj->VisitNearbyObject(range, searcher);
 #else
         MaNGOS::GameObjectListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(list, checker);
@@ -422,8 +422,8 @@ namespace LuaWorldObject
 #ifdef TRINITY
         Trinity::WorldObjectLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
         Cell::VisitAllObjects(obj, searcher, range);
-#elif AZEROTHCORE
-        acore::WorldObjectLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
+#elif WH
+        warhead::WorldObjectLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, target, checker);
         obj->VisitNearbyObject(range, searcher);
 #else
         MaNGOS::WorldObjectLastSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(target, checker);
@@ -462,8 +462,8 @@ namespace LuaWorldObject
 #ifdef TRINITY
         Trinity::WorldObjectListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
         Cell::VisitAllObjects(obj, searcher, range);
-#elif AZEROTHCORE
-        acore::WorldObjectListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
+#elif WH
+        warhead::WorldObjectListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(obj, list, checker);
         obj->VisitNearbyObject(range, searcher);
 #else
         MaNGOS::WorldObjectListSearcher<ElunaUtil::WorldObjectInRangeCheck> searcher(list, checker);
@@ -658,7 +658,7 @@ namespace LuaWorldObject
     int GetAngle(lua_State* L, WorldObject* obj)
     {
         WorldObject* target = Eluna::CHECKOBJ<WorldObject>(L, 2, false);
-#if defined TRINITY && !AZEROTHCORE
+#if defined TRINITY && !WH
         if (target)
             Eluna::Push(L, obj->GetAbsoluteAngle(target));
         else
@@ -718,7 +718,7 @@ namespace LuaWorldObject
 #ifdef TRINITY
         QuaternionData rot = QuaternionData::fromEulerAnglesZYX(o, 0.f, 0.f);
         Eluna::Push(L, obj->SummonGameObject(entry, Position(x, y, z, o), rot, respawnDelay));
-#elif AZEROTHCORE
+#elif WH
         Eluna::Push(L, obj->SummonGameObject(entry, x, y, z, o, 0, 0, 0, 0, respawnDelay));
 #else
         Eluna::Push(L, obj->SummonGameObject(entry, x, y, z, o, respawnDelay));
@@ -775,7 +775,7 @@ namespace LuaWorldObject
                 type = TEMPSUMMON_TIMED_DESPAWN;
                 break;
             case 4:
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
                 type = TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT;
 #else
                 type = TEMPSUMMON_TIMED_OOC_DESPAWN;
@@ -793,7 +793,7 @@ namespace LuaWorldObject
             case 8:
                 type = TEMPSUMMON_MANUAL_DESPAWN;
                 break;
-#if !defined TRINITY && !AZEROTHCORE
+#if !defined TRINITY && !WH
             case 9:
                 type = TEMPSUMMON_TIMED_OOC_OR_CORPSE_DESPAWN;
                 break;

@@ -39,7 +39,7 @@ namespace LuaAura
      */
     int GetCasterGUID(lua_State* L, Aura* aura)
     {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, aura->GetCasterGUID());
 #else
         Eluna::Push(L, aura->GetCasterGuid());
@@ -69,7 +69,7 @@ namespace LuaAura
      */
     int GetDuration(lua_State* L, Aura* aura)
     {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, aura->GetDuration());
 #else
         Eluna::Push(L, aura->GetAuraDuration());
@@ -98,7 +98,7 @@ namespace LuaAura
      */
     int GetMaxDuration(lua_State* L, Aura* aura)
     {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, aura->GetMaxDuration());
 #else
         Eluna::Push(L, aura->GetAuraMaxDuration());
@@ -126,7 +126,7 @@ namespace LuaAura
      */
     int GetOwner(lua_State* L, Aura* aura)
     {
-#if defined TRINITY || defined AZEROTHCORE
+#if defined TRINITY || defined WH
         Eluna::Push(L, aura->GetOwner());
 #else
         Eluna::Push(L, aura->GetTarget());
@@ -142,7 +142,7 @@ namespace LuaAura
     int SetDuration(lua_State* L, Aura* aura)
     {
         int32 duration = Eluna::CHECKVAL<int32>(L, 2);
-#if defined TRINITY || defined AZEROTHCORE
+#if defined TRINITY || defined WH
         aura->SetDuration(duration);
 #else
         aura->GetHolder()->SetAuraDuration(duration);
@@ -166,7 +166,7 @@ namespace LuaAura
     int SetMaxDuration(lua_State* L, Aura* aura)
     {
         int32 duration = Eluna::CHECKVAL<int32>(L, 2);
-#if defined TRINITY || defined AZEROTHCORE
+#if defined TRINITY || defined WH
         aura->SetMaxDuration(duration);
 #else
         aura->GetHolder()->SetAuraMaxDuration(duration);
@@ -190,7 +190,7 @@ namespace LuaAura
     int SetStackAmount(lua_State* L, Aura* aura)
     {
         uint8 amount = Eluna::CHECKVAL<uint8>(L, 2);
-#if defined TRINITY || defined AZEROTHCORE
+#if defined TRINITY || defined WH
         aura->SetStackAmount(amount);
 #else
         aura->GetHolder()->SetStackAmount(amount);
@@ -203,7 +203,7 @@ namespace LuaAura
      */
     int Remove(lua_State* L, Aura* aura)
     {
-#if defined TRINITY || defined AZEROTHCORE
+#if defined TRINITY || defined WH
         aura->Remove();
 #else
         aura->GetTarget()->RemoveSpellAuraHolder(aura->GetHolder(), AURA_REMOVE_BY_CANCEL);

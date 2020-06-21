@@ -16,7 +16,7 @@
 #endif
 #include <map>
 
-#if defined(TRINITY) || AZEROTHCORE
+#if defined(TRINITY) || WH
 #include "Define.h"
 #else
 #include "Platform/Define.h"

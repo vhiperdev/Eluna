@@ -38,7 +38,7 @@ namespace LuaGuild
         {
 #ifdef TRINITY
             boost::shared_lock<boost::shared_mutex> lock(*HashMapHolder<Player>::GetLock());
-#elif defined(AZEROTHCORE)
+#elif defined(WH)
             ACORE_READ_GUARD(HashMapHolder<Player>::LockType, *HashMapHolder<Player>::GetLock());
 #else
             HashMapHolder<Player>::ReadGuard g(HashMapHolder<Player>::GetLock());
@@ -68,7 +68,7 @@ namespace LuaGuild
      */
     int GetMemberCount(lua_State* L, Guild* guild)
     {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, guild->GetMemberCount());
 #else
         Eluna::Push(L, guild->GetMemberSize());
@@ -83,7 +83,7 @@ namespace LuaGuild
      */
     int GetLeader(lua_State* L, Guild* guild)
     {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, eObjectAccessor()FindPlayer(guild->GetLeaderGUID()));
 #else
         Eluna::Push(L, eObjectAccessor()FindPlayer(guild->GetLeaderGuid()));
@@ -98,7 +98,7 @@ namespace LuaGuild
      */
     int GetLeaderGUID(lua_State* L, Guild* guild)
     {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, guild->GetLeaderGUID());
 #else
         Eluna::Push(L, guild->GetLeaderGuid());
@@ -146,7 +146,7 @@ namespace LuaGuild
      */
     int GetInfo(lua_State* L, Guild* guild)
     {
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         Eluna::Push(L, guild->GetInfo());
 #else
         Eluna::Push(L, guild->GetGINFO());
@@ -164,7 +164,7 @@ namespace LuaGuild
     {
         Player* player = Eluna::CHECKOBJ<Player>(L, 2);
 
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         guild->HandleSetLeader(player->GetSession(), player->GetName());
 #else
         guild->SetLeader(player->GET_GUID());
@@ -184,7 +184,7 @@ namespace LuaGuild
     {
         uint8 tabId = Eluna::CHECKVAL<uint8>(L, 2);
         const char* text = Eluna::CHECKVAL<const char*>(L, 3);
-#if defined TRINITY || AZEROTHCORE
+#if defined TRINITY || WH
         guild->SetBankTabText(tabId, text);
 #else
         guild->SetGuildBankTabText(tabId, text);
@@ -276,7 +276,7 @@ namespace LuaGuild
 #if defined TRINITY
         CharacterDatabaseTransaction trans(nullptr);
         guild->DeleteMember(trans, player->GET_GUID(), isDisbanding);
-#elif defined AZEROTHCORE
+#elif defined WH
         SQLTransaction trans(nullptr);
         guild->DeleteMember(trans, player->GET_GUID(), isDisbanding);
 #else

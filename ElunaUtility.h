@@ -45,7 +45,7 @@ typedef QueryResult ElunaQuery;
 #define HIGHGUID_MO_TRANSPORT   HighGuid::Mo_Transport
 #define HIGHGUID_INSTANCE       HighGuid::Instance
 #define HIGHGUID_GROUP          HighGuid::Group
-#elif AZEROTHCORE
+#elif WH
 typedef QueryResult ElunaQuery;
 #define ELUNA_LOG_INFO(...)     sLog->outString(__VA_ARGS__);
 #define ELUNA_LOG_ERROR(...)    sLog->outError(__VA_ARGS__);
