@@ -2214,7 +2214,7 @@ namespace LuaPlayer
         /*const char* reason = luaL_checkstring(E, 2);*/ // Mangos does not have a reason field in database.
 
         time_t muteTime = time(NULL) + muteseconds;
-        player->GetSession()->m_muteTime = muteTime;
+        sMute->GetMuteTime(player->GetSession()->GetAccountId());
         std::ostringstream oss;
         oss << "UPDATE account SET mutetime = " << muteTime << " WHERE id = " << player->GetSession()->GetAccountId();
         LoginDatabase.PExecute("%s", oss.str().c_str());

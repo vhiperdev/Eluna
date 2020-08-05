@@ -14,6 +14,15 @@
 #include "Common.h"
 #include "SharedDefines.h"
 #include "ObjectGuid.h"
+#include "MuteManager.h"
+#include "Poco/FormattingChannel.h"
+#include "Poco/PatternFormatter.h"
+#include "Poco/SplitterChannel.h"
+#include "Poco/FileChannel.h"
+#include "Poco/Logger.h"
+#include "Poco/AutoPtr.h"
+#include <sstream>
+#include "Logging/Log.h"
 #ifdef TRINITY
 #include "QueryResult.h"
 #include "Log.h"
@@ -47,9 +56,9 @@ typedef QueryResult ElunaQuery;
 #define HIGHGUID_GROUP          HighGuid::Group
 #elif WH
 typedef QueryResult ElunaQuery;
-#define ELUNA_LOG_INFO(...)     sLog->outString(__VA_ARGS__);
-#define ELUNA_LOG_ERROR(...)    sLog->outError(__VA_ARGS__);
-#define ELUNA_LOG_DEBUG(...)    sLog->outDebug(LOG_FILTER_NONE,__VA_ARGS__);
+#define ELUNA_LOG_INFO(...)     LOG_INFO("",__VA_ARGS__);
+#define ELUNA_LOG_ERROR(...)    LOG_ERROR("",__VA_ARGS__);
+#define ELUNA_LOG_DEBUG(...)    LOG_DEBUG(LOG_FILTER_NONE,__VA_ARGS__);
 #define GET_GUID                GetGUID
 #else
 typedef QueryNamedResult ElunaQuery;

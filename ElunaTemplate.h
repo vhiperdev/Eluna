@@ -28,7 +28,7 @@ public:
         int args = lua_gettop(L) - top;
         if (args < 0 || args > expected)
         {
-            ELUNA_LOG_ERROR("[Eluna]: %s returned unexpected amount of arguments %i out of %i. Report to devs", l->name, args, expected);
+            LOG_ERROR("[Eluna]: %s returned unexpected amount of arguments %i out of %i. Report to devs", l->name, args, expected);
             ASSERT(false);
         }
         lua_settop(L, top + expected);
